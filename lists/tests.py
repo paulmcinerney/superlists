@@ -16,14 +16,23 @@ class HomePageTest(TestCase):
         request = HttpRequest()
         response = home_page(request)
         # state the template expected
-        expected_html = render_to_string('home.html')
+        expected_html = render_to_string('lists/home.html')
         self.assertEqual(response.content.decode(), expected_html)
-        # b syntax is because the response is in bytes not strings
-        #before using render to string
-        #self.assertTrue(response.content.startswith(b'<!DOCTYPE html>'))
-        #self.assertIn(b'<title>To-Do lists</title>', response.content)
-        #self.assertTrue(response.content.endswith(b'</html>'))
 
+
+
+    def test_home_page_can_save_a_POST_request(self):
+        request = HttpRequest()
+        request.method = 'POST'
+        request.POST['item_text'] = 'A new list item'
+
+        response = home_page(request)
+        self.assertIn('A new list item', response.content.decode())
+        expected_html = render_to_string(
+            'lists/home.html',
+            {'new_item_text':  'A new list item'}
+        )
+        self.assertEqual(response.content.decode(), expected_html)
 
 
 
