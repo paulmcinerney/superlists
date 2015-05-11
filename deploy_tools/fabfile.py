@@ -10,7 +10,7 @@ def _create_directory_structure_if_necessary(site_folder):
     for subfolder in ('database','static', 'virtualenv', 'source'):
         run('mkdir -p %s/%s' % (site_folder, subfolder))
 
-
+print("done")
 def _get_latest_source(source_folder):
     if exists(source_folder + '/.git'):
         run('cd %s && git fetch' % (source_folder,))
